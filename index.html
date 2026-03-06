@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DealCents — Coming Soon</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0B1F3A;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,151,58,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,151,58,.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  /* Glow orb */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201,151,58,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .card {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 560px;
+    width: 100%;
+    animation: fadeUp .7s ease forwards;
+  }
+
+  /* Logo */
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 52px;
+  }
+  .logo-icon {
+    width: 42px; height: 42px;
+    background: #C9973A;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-icon svg { width: 24px; height: 24px; }
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .logo-text span { color: #E8B85A; }
+
+  /* Eyebrow */
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #C9973A;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: '';
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: #C9973A;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -.5px;
+    margin-bottom: 20px;
+  }
+  h1 em { font-style: italic; color: #E8B85A; }
+
+  .sub {
+    font-size: 17px;
+    color: rgba(255,255,255,.55);
+    line-height: 1.7;
+    margin-bottom: 44px;
+  }
+
+  /* Email form */
+  .form {
+    display: flex;
+    gap: 10px;
+    max-width: 420px;
+    margin: 0 auto 48px;
+  }
+  .form input {
+    flex: 1;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.06);
+    color: #fff;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .form input::placeholder { color: rgba(255,255,255,.3); }
+  .form input:focus { border-color: #C9973A; }
+  .form button {
+    padding: 14px 24px;
+    background: #C9973A;
+    color: #0B1F3A;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+    transition: background .2s, transform .2s;
+  }
+  .form button:hover { background: #E8B85A; transform: translateY(-1px); }
+
+  .thanks {
+    display: none;
+    color: #3A9B77;
+    font-size: 14px;
+    margin-bottom: 48px;
+    font-weight: 500;
+  }
+  .thanks.show { display: block; }
+
+  /* What's coming */
+  .coming {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 52px;
+    text-align: left;
+  }
+  .coming-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 10px;
+    padding: 14px 18px;
+  }
+  .coming-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+  }
+  .coming-text strong { font-size: 14px; font-weight: 600; display: block; margin-bottom: 2px; }
+  .coming-text span { font-size: 12px; color: rgba(255,255,255,.4); }
+
+  /* Footer line */
+  .footer {
+    font-size: 12px;
+    color: rgba(255,255,255,.2);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .5px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 34px; }
+    .form { flex-direction: column; }
+    .form button { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 22 22" fill="none">
+        <rect x="2" y="11" width="3.5" height="9" rx="1" fill="#0B1F3A"/>
+        <rect x="7.5" y="7" width="3.5" height="13" rx="1" fill="#0B1F3A"/>
+        <rect x="13" y="2" width="3.5" height="18" rx="1" fill="#0B1F3A"/>
+      </svg>
+    </div>
+    <span class="logo-text">Deal<span>Cents</span></span>
+  </div>
+
+  <p class="eyebrow">Coming Soon</p>
+
+  <h1>Property deals that actually <em>make cents.</em></h1>
+
+  <p class="sub">Independent property deal analysis for South African investors. A clear BUY, NEGOTIATE or WALK AWAY verdict — before you sign anything.</p>
+
+  <div class="form" id="notify-form">
+    <input type="email" id="email-input" placeholder="your@email.com">
+    <button onclick="notify()">Notify Me</button>
+  </div>
+  <p class="thanks" id="thanks">✓ You're on the list — we'll be in touch soon.</p>
+
+  <div class="coming">
+    <div class="coming-item">
+      <div class="coming-icon">📊</div>
+      <div class="coming-text">
+        <strong>Property Deal Feasibility Analysis</strong>
+        <span>ROI, cashflow, yield — the full picture in 48 hours</span>
+      </div>
+    </div>
+    <div class="coming-item">
+      <div class="coming-icon">🔍</div>
+      <div class="coming-text">
+        <strong>Independent — No Agent Affiliation</strong>
+        <span>We get paid to tell you the truth, not to close the deal</span>
+      </div>
+    </div>
+    <div class="coming-item">
+      <div class="coming-icon">🇿🇦</div>
+      <div class="coming-text">
+        <strong>Built for South Africa</strong>
+        <span>Transfer duty, SA bond structures, local market data</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="footer">dealcents.co.za &nbsp;·&nbsp; launching soon</p>
+
+</div>
+
+<script>
+  function notify() {
+    const input = document.getElementById('email-input');
+    const val   = input.value.trim();
+    if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      input.style.borderColor = '#C0392B';
+      input.focus();
+      return;
+    }
+    document.getElementById('notify-form').style.display = 'none';
+    document.getElementById('thanks').classList.add('show');
+    // In production: POST to your API or a form service like Formspree
+    console.log('Email captured:', val);
+  }
+
+  document.getElementById('email-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') notify();
+  });
+</script>
+
+</body>
+</html>
