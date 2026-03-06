@@ -271,8 +271,11 @@
     }
     document.getElementById('notify-form').style.display = 'none';
     document.getElementById('thanks').classList.add('show');
-    // In production: POST to your API or a form service like Formspree
-    console.log('Email captured:', val);
+    fetch('https://formspree.io/f/xyknygvr', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: val })
+    });
   }
 
   document.getElementById('email-input').addEventListener('keydown', e => {
